@@ -368,7 +368,12 @@ public class LootManager extends QModule {
         Location loot = block.getLocation();
         if (this.loots.containsKey(loot)) {
             e.setUseItemInHand(Result.DENY);
-            this.loots.get(loot).open(player);
+            final LootHolder holder = this.loots.get(loot);
+            if (player.isSneaking()) {
+                holder.openAll(player);
+            } else {
+                holder.open(player);
+            }
         }
     }
 

@@ -241,6 +241,7 @@ public class Lang extends CoreLang {
     public ILangMsg ItemGenerator_Cmd_Editor_Error_InvalidInput       = new ILangMsg(this, "%input% &cis not a valid %value%");
     public ILangMsg Loot_Box_Error_NotOwner                           = new ILangMsg(this, "You're not obtain this loot.");
     public ILangMsg Loot_Box_Error_Locked                             = new ILangMsg(this, "Someone's already looting this...");
+    public ILangMsg Loot_Box_Error_InventoryFull                      = new ILangMsg(this, "You do not have enough space in your inventory.");
     public ILangMsg Loot_Box_Owner_None                               = new ILangMsg(this, "Free");
     public ILangMsg Loot_Party_Roll_Notify_List                       = new ILangMsg(
             this,
