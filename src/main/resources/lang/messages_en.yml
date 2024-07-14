@@ -205,6 +205,7 @@ Loot:
     Error:
       NotOwner: You're not obtain this loot.
       Locked: Someone's already looting this...
+      InventoryFull: You do not have enough space in your inventory.
     Owner:
       None: Free
   Party:

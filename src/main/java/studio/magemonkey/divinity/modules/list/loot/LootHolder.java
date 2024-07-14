@@ -165,17 +165,58 @@ public class LootHolder extends IListener<Divinity> implements InventoryHolder {
     // ------------------------------------------------------- //
 
     public void open(@NotNull Player player) {
-        if (!this.isOwner(player)) {
-            plugin.lang().Loot_Box_Error_NotOwner.send(player);
-            return;
-        }
-        if (!this.viewers.isEmpty()) {
-            plugin.lang().Loot_Box_Error_Locked.send(player);
-            return;
-        }
+        if (!isOpenable(player)) return;
 
         player.openInventory(this.getInventory());
         this.viewers.add(player);
+    }
+
+    public void openAll(@NotNull Player player) {
+        if (!isOpenable(player)) return;
+
+        if (getEmptyInventorySlotSize(player) < getLootSize()) {
+            plugin.lang().Loot_Box_Error_InventoryFull.send(player);
+            return;
+        }
+        for (final ItemStack item : this.getInventory().getContents()) {
+            if (item != null) {
+                player.getInventory().addItem(item);
+            }
+        }
+        this.manager.despawnLoot(this.boxLoc);
+    }
+
+    private boolean isOpenable(@NotNull Player player) {
+        if (!this.isOwner(player)) {
+            plugin.lang().Loot_Box_Error_NotOwner.send(player);
+            return false;
+        }
+        if (!this.viewers.isEmpty()) {
+            plugin.lang().Loot_Box_Error_Locked.send(player);
+            return false;
+        }
+        return true;
+    }
+
+    public int getEmptyInventorySlotSize(@NotNull Player player) {
+        int emptySlots = 0;
+        for (int i = 0; i <= 35; i++) {
+            final ItemStack item = player.getInventory().getItem(i);
+            if (item == null) {
+                emptySlots++;
+            }
+        }
+        return emptySlots;
+    }
+
+    private int getLootSize() {
+        int i = 0;
+
+        for(final ItemStack item : this.getInventory().getContents()) {
+            if (item == null) continue;
+            i++;
+        }
+        return i;
     }
 
     public boolean isOwner(@NotNull Player player) {
